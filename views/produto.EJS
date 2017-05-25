@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+	<body>
+		<div class="container">
+		    <nav class="navbar navbar-default">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="#">Projeto BD</a>
+			    </div>
+			    <ul class="nav navbar-nav">
+			      <li><a href="#">Home</a></li>
+			      <li><a href="pedido">Pedido</a></li>
+			      <li><a href="estoque">Estoque</a></li>
+			      <li class="active"><a href="produto">Produto</a></li>
+			      <li><a href="relatorio">Relatório</a></li>
+			    </ul>
+			  </div>
+			</nav>
+
+			<div class="row">
+				<div class="col-sm-4">
+					Id do produto:
+					<input type="text" name="id" size="5">
+	  				<input type="button" name="pesquisar" value="Pesquisar"><br><br>
+	  				Produtos:
+	  				<select>
+	  					<option></option>
+					</select><br><br>
+	  				Nome:
+	  				<input type="text" name="nome"><br><br>
+	  				Preço:
+	  				<input type="number" name="quantidade" value="0" min="0" max="200"><br><br>
+	  				<input type="button" name="Adicionar" value="Adicionar">
+	  				<input type="button" name="Inserir" value="Inserir">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

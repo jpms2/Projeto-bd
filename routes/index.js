@@ -11,6 +11,26 @@ router.get('/helloworld', function(req, res) {
 res.render('helloworld', { title: 'Hello, World!' });
 });
 
+/* GET Pedido page. */
+router.get('/pedido', function(req, res) {
+res.render('pedido', { title: 'Hello, World!' });
+});
+
+/* GET Estoque page. */
+router.get('/estoque', function(req, res) {
+res.render('estoque', { title: 'Hello, World!' });
+});
+
+/* GET Relatório page. */
+router.get('/relatorio', function(req, res) {
+res.render('relatorio', { title: 'Hello, World!' });
+});
+
+/* GET Produto page. */
+router.get('/produto', function(req, res) {
+res.render('produto', { title: 'Hello, World!' });
+});
+
 /* POST to Add User Service */
 router.post('/adduser', function (req, res) {
 
