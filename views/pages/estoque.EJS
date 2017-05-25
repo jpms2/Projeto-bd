@@ -1,47 +1,35 @@
-<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<% include ../partials/head %>
-	</head>
-	<body>
-		<div class="container">
-		    <nav class="navbar navbar-default">
-			  <div class="container-fluid">
-			    <div class="navbar-header">
-			      <a class="navbar-brand" href="#">Projeto BD</a>
-			    </div>
-			    <ul class="nav navbar-nav">
-			      <li><a href="#">Home</a></li>
-			      <li><a href="pedido">Pedido</a></li>
-			      <li class="active"><a href="estoque">Estoque</a></li>
-			      <li><a href="produto">Produto</a></li>
-			      <li><a href="relatorio">Relatório</a></li>
-			    </ul>
-			  </div>
-			</nav>
+<head>
+	<% include ../partials/head %>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<% include ../partials/header %>
+		</header>
 
-			<div class="row">
-				<div class="col-sm-4">
-					Id do produto:
-					<input type="text" name="id" size="5">
-	  				<input type="button" name="pesquisar" value="Pesquisar"><br><br>
-	  				Produtos:
-	  				<select>
-	  					<option></option>
-					</select><br><br>
-	  				<table class="table table-striped">
-						<tr>
-						    <th>Produto</th>
-						    <th>Preço</th>
-						</tr>
-						<tr>
-		  				</tr>
-					</table>
-					Quantidade em estoque:
-	  				<input type="number" name="quantidade" value ="0" min="0" max="100"><br><br>
-					<input type="button" name="Atualizar" value="Atualizar">
-				</div>
+		<div class="row">
+			<div class="col-sm-4">
+				Id do produto:
+				<input type="text" name="id" size="5">
+				<input type="button" name="pesquisar" value="Pesquisar"><br><br>
+				Produtos:
+				<select>
+					<option></option>
+				</select><br><br>
+				<table class="table table-striped">
+					<tr>
+						<th>Produto</th>
+						<th>Preço</th>
+					</tr>
+					<tr>
+					</tr>
+				</table>
+				Quantidade em estoque:
+				<input type="number" name="quantidade" value ="0" min="0" max="100"><br><br>
+				<input type="button" name="Atualizar" value="Atualizar">
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>
