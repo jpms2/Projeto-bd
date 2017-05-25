@@ -3,32 +3,32 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('pages/index', { title: 'Express' });
 });
 
 /* GET Hello World page. */
 router.get('/helloworld', function(req, res) {
-res.render('helloworld', { title: 'Hello, World!' });
+res.render('pages/helloworld', { title: 'Hello, World!' });
 });
 
 /* GET Pedido page. */
 router.get('/pedido', function(req, res) {
-res.render('pedido', { title: 'Hello, World!' });
+res.render('pages/pedido', { title: 'Hello, World!' });
 });
 
 /* GET Estoque page. */
 router.get('/estoque', function(req, res) {
-res.render('estoque', { title: 'Hello, World!' });
+res.render('pages/estoque', { title: 'Hello, World!' });
 });
 
 /* GET Relatório page. */
 router.get('/relatorio', function(req, res) {
-res.render('relatorio', { title: 'Hello, World!' });
+res.render('pages/relatorio', { title: 'Hello, World!' });
 });
 
 /* GET Produto page. */
 router.get('/produto', function(req, res) {
-res.render('produto', { title: 'Hello, World!' });
+res.render('pages/produto', { title: 'Hello, World!' });
 });
 
 /* POST to Add User Service */
@@ -59,11 +59,11 @@ router.get('/userlist', function(req, res) {
    var Users = db.Mongoose.model('usercollection', db.UserSchema, 'usercollection');
    Users.find({}).lean().exec(
       function (e, docs) {
-         res.render('userlist', { "userlist": docs });
+         res.render('pages/userlist', { "userlist": docs });
    });
 });
 
 /* GET New User page. */
 router.get('/newuser', function(req, res) {
-res.render('newuser', { title: 'Add New User' });
+res.render('pages/newuser', { title: 'Add New User' });
 });
