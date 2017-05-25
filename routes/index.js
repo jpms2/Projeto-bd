@@ -51,7 +51,6 @@ res.render('pages/produto', { title: 'Hello, World!' });
 //         }
 //     });
 // });
-// module.exports = router;
 
 // /* GET Userlist page. */
 // router.get('/userlist', function(req, res) {
@@ -67,3 +66,5 @@ res.render('pages/produto', { title: 'Hello, World!' });
 router.get('/newuser', function(req, res) {
 res.render('pages/newuser', { title: 'Add New User' });
 });
+
+module.exports = router;
