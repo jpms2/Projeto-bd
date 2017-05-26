@@ -11,10 +11,17 @@
 	function setActiveNavBar(){ //seta a classe do navbar como ativa dependendo de qual area está sendo navegada
 		var route = window.location.href.split('/')[3];
 		$('.navbar-nav a').each(function(){
-			if(this.href.split('/')[3] == route){
+			if(this.id == route){
 				$(this).closest('li').addClass('active');
 			}
 		});
 	}
-
 </script>
+<style type="text/css">
+	.center-container{
+		margin: auto;
+		width: 80%;
+	}
+</style>
+
+<title>Casa Doces</title>

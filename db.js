@@ -20,7 +20,7 @@ var saleSchema = new mongoose.Schema({
 }, { collection: 'vendacollection' });
 
 var sellerSchema = new mongoose.Schema({
-    nome: String,
+    nome: String
 }, { collection: 'vendedorcollection' });
 
 
