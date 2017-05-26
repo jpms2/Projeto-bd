@@ -5,8 +5,15 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a id="pedido" href="/pedido">Pedido</a></li>
-			<li><a id="estoque" href="/estoque">Repor Produto</a></li>
-			<li><a id="produto" href="/produto">Cadastrar Produto</a></li>
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" id="produtos">Produtos
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/produtos/inserirProduto">Inserir</a></li>
+						<li><a href="/produtos/listarProduto">Lista</a></li>
+					</ul>
+				</li>
+			</li>
 			<li><a id="relatorio" href="/relatorio">Relatório</a></li>
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" id="vendedores">Vendedores

@@ -1,69 +1,77 @@
 var express = require('express');
 var router = express.Router();
+var db = require("../db");
+var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('pages/index', { title: 'Express' });
+router.get('/inserirproduto', function(req, res, next) {
+  res.render('pages/produtos/inserirproduto');
 });
 
-/* GET Hello World page. */
-router.get('/helloworld', function(req, res) {
-res.render('pages/helloworld', { title: 'Hello, World!' });
+
+router.post('/inserirproduto', function (req, res) {
+	var name = req.body.nome;
+	var price = req.body.preco;
+	var availableQtd = req.body.estoque;
+
+	var prod = new Produtos({ name: name, price: price, availableQtd: availableQtd });
+	prod.save(function (err) {
+		if (err) {
+			console.log("Error! " + err.message);
+			return err;
+		}
+		else{
+			console.log("Post saved");
+			res.redirect("listarproduto");
+		}
+	});
 });
 
-/* GET Pedido page. */
-router.get('/pedido', function(req, res) {
-res.render('pages/pedido', { title: 'Hello, World!' });
+router.post('/editarproduto', function (req, res) {
+	var name = req.body.nome;
+	var price = req.body.preco;
+	var availableQtd = req.body.estoque;
+	var id = req.body.id;
+	Produtos.findByIdAndUpdate(id, {$set: {
+			name: name,
+			price: price,
+			availableQtd: availableQtd }}, function (err) {
+		if (err) {
+			console.log("Error! " + err.message);
+			return err;
+		}
+		else{
+			console.log("Post edited");
+			res.redirect("listarproduto");
+		}
+		});
 });
 
-/* GET Estoque page. */
-router.get('/estoque', function(req, res) {
-res.render('pages/estoque', { title: 'Hello, World!' });
+
+router.get('/listarproduto', function(req, res) {
+ var db = require("../db");
+ Produtos.find({}).lean().exec(
+  function (e, docs) {
+    res.render('pages/produtos/listarproduto', { "produtos": docs });
+  });
 });
 
-/* GET Relatório page. */
-router.get('/relatorio', function(req, res) {
-res.render('pages/relatorio', { title: 'Hello, World!' });
+router.get('/editarproduto', function(req, res) {
+ var id = req.query.id;
+ Produtos.find({ _id: id }).lean().exec(
+ function (e, docs) {
+    res.render('pages/produtos/editarproduto', { "produtos": docs });
+  });
 });
 
-/* GET Produto page. */
-router.get('/produto', function(req, res) {
-res.render('pages/produto', { title: 'Hello, World!' });
+router.get('/deletarproduto', function(req,res){
+  var id = req.query.id;
+  Produtos.findByIdAndRemove(id,function(err){
+    if(err){
+     console.log("Error! " + err.message);
+     return err; 
+   }else{
+    res.redirect("listarproduto");
+  }});
 });
 
-/* POST to Add User Service */
-router.post('/adduser', function (req, res) {
-
-    var db = require("../db");
-    var userName = req.body.username;
-    var userEmail = req.body.useremail;
-
-    var Users = db.Mongoose.model('usercollection', db.UserSchema, 'usercollection');
-    var user = new Users({ username: userName, email: userEmail });
-    user.save(function (err) {
-        if (err) {
-            console.log("Error! " + err.message);
-            return err;
-        }
-        else {
-            console.log("Post saved");
-            res.redirect("userlist");
-        }
-    });
-});
 module.exports = router;
-
-/* GET Userlist page. */
-router.get('/userlist', function(req, res) {
-   var db = require("../db");
-   var Users = db.Mongoose.model('usercollection', db.UserSchema, 'usercollection');
-   Users.find({}).lean().exec(
-      function (e, docs) {
-         res.render('pages/userlist', { "userlist": docs });
-   });
-});
-
-/* GET New User page. */
-router.get('/newuser', function(req, res) {
-res.render('pages/newuser', { title: 'Add New User' });
-});

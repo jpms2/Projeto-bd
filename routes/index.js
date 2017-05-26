@@ -26,10 +26,6 @@ router.get('/relatorio', function(req, res) {
 res.render('pages/relatorio', { title: 'Hello, World!' });
 });
 
-/* GET Produto page. */
-router.get('/produto', function(req, res) {
-res.render('pages/produto', { title: 'Hello, World!' });
-});
 
 // /* POST to Add User Service */
 // router.post('/adduser', function (req, res) {

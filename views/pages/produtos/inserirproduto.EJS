@@ -1,0 +1,23 @@
+<html lang="en">
+	<head>
+		<% include ../../partials/head %>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<% include ../../partials/header %>
+			</header>	
+			<form action="inserirproduto" method="post" class="form-inline">
+				<div class="form-group">
+					<label for="nome"> Nome: </label>
+					<input type="text" name="nome"><br><br>
+					<label for="preco"> Preço: </label>
+	  				<input type="number" name="preco" value="0" min="0" max="1000"><br><br>
+	  				<label for="estoque"> Quantidade em estoque: </label>
+					<input type="number" name="estoque" value ="0" min="0" max="1000"><br><br>
+	  				<button type="submit" class="btn btn-success">Inserir</button>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

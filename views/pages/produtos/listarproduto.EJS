@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+	<% include ../../partials/head %>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<% include ../../partials/header %>
+		</header>
+		<div class="center-container">
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Preço</th>
+						<th>Ação</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% produtos.forEach(function(produto){ %>
+					<tr>
+						<td><%= produto.name%></td>
+						<td><%= produto.price%>R$</td>
+						<td><a href=<%= "deletarproduto?id=" + produto._id %> class="btn btn-danger btn-sm">Deletar </a> <a href=<%= "editarproduto?id=" + produto._id %> class="btn btn-danger btn-sm">Editar </a></td>
+					</tr>
+					<%})%>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
