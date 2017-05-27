@@ -18,9 +18,15 @@ var saleSchema = new mongoose.Schema({
                availableQtd : Number}
 }, { collection: 'vendacollection' });
 
+var pedidoSchema = new mongoose.Schema({
+    produtoId : String,
+    quantidade : Number,
+    data : Date
+}, { collection: 'pedidocollection' });
+
 var sellerSchema = new mongoose.Schema({
     nome: String
 }, { collection: 'vendedorcollection' });
 
 
-module.exports = { Mongoose: mongoose, SellerSchema: sellerSchema, SaleSchema: saleSchema, ProductSchema : productSchema}
+module.exports = { Mongoose: mongoose, SellerSchema: sellerSchema, SaleSchema: saleSchema, ProductSchema : productSchema, PedidoSchema : pedidoSchema}

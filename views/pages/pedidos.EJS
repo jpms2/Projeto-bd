@@ -1,6 +1,17 @@
 <html lang="en">
 <head>
 	<% include ../partials/head %>
+	<script type="text/javascript">
+		
+		function selecionarProduto(id){
+    		var produtoEscolhido = $(id).val();
+    		alert(produtoEscolhido);
+     			$.ajax({url: "getProduto?produto="+produtoEscolhido, success: function(result){
+        		$("#Preco").html(result.preco);
+        		$("#Id_Produto").html(result.id);
+    }});
+}
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -8,11 +19,16 @@
 			<% include ../partials/header %>
 		</header>
 
-		<div class="row">
+		<div class="center-container">
 			<div class="col-sm-4">
-				Id do produto:
-				<input type="text" name="id" size="5">
-				<input type="button" name="pesquisar" value="Pesquisar"><br><br>
+				Produtos:
+				<select id="selectBox" onchange="javascript:selecionarProduto(this);">
+  					<% produtos.forEach(function(produto){ %>
+						<option value="<%= produto._id%>"><%= produto.name%></option>
+					<%})%>
+				</select><br><br>
+				Preço:
+				<input type="text" name="preco" id="preco" size="5" ><br><br>
 				Quantidade:
 				<input type="number" name="quantidade" value ="0" min="0" max="100"><br><br>
 				<input type="button" name="Adicionar" value="Adicionar">

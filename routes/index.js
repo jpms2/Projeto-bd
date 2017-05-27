@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var db = require("../db");
+var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,9 +14,9 @@ res.render('pages/helloworld', { title: 'Hello, World!' });
 });
 
 /* GET Pedido page. */
-router.get('/pedido', function(req, res) {
-res.render('pages/pedido', { title: 'Hello, World!' });
-});
+//router.get('/pedido', function(req, res) {
+//res.render('pages/pedido', { title: 'Hello, World!' });
+//});
 
 /* GET Estoque page. */
 router.get('/estoque', function(req, res) {
@@ -24,6 +26,23 @@ res.render('pages/estoque', { title: 'Hello, World!' });
 /* GET Relatório page. */
 router.get('/relatorio', function(req, res) {
 res.render('pages/relatorio', { title: 'Hello, World!' });
+});
+
+router.get('/pedidos', function(req, res) {
+ var db = require("../db");
+ Produtos.find({}).lean().exec(
+  function (e, docs) {
+    res.render('pages/pedidos', { "produtos": docs });
+  });
+});
+
+router.get('/getProduto', function(req, res) {
+ var db = require("../db");
+ var id = req.query.id;
+ Produtos.findById(id).lean().exec(
+  function (e, docs) {
+    res.render('pages/pedidos', { "produtos": docs });
+  });
 });
 
 
