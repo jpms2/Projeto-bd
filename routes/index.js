@@ -5,12 +5,12 @@ var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produto
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('pages/index', { title: 'Express' });
+	res.render('pages/index', { title: 'Express' });
 });
 
 /* GET Hello World page. */
 router.get('/helloworld', function(req, res) {
-res.render('pages/helloworld', { title: 'Hello, World!' });
+	res.render('pages/helloworld', { title: 'Hello, World!' });
 });
 
 /* GET Pedido page. */
@@ -20,29 +20,29 @@ res.render('pages/helloworld', { title: 'Hello, World!' });
 
 /* GET Estoque page. */
 router.get('/estoque', function(req, res) {
-res.render('pages/estoque', { title: 'Hello, World!' });
+	res.render('pages/estoque', { title: 'Hello, World!' });
 });
 
 /* GET Relatório page. */
 router.get('/relatorio', function(req, res) {
-res.render('pages/relatorio', { title: 'Hello, World!' });
+	res.render('pages/relatorio', { title: 'Hello, World!' });
 });
 
-router.get('/pedidos', function(req, res) {
- var db = require("../db");
- Produtos.find({}).lean().exec(
-  function (e, docs) {
-    res.render('pages/pedidos', { "produtos": docs });
-  });
-});
+// router.get('/pedidos', function(req, res) {
+//  var db = require("../db");
+//  Produtos.find({}).lean().exec(
+//   function (e, docs) {
+//     res.render('pages/pedidos', { "produtos": docs });
+//   });
+// });
 
 router.get('/getProduto', function(req, res) {
- var db = require("../db");
- var id = req.query.id;
- Produtos.findById(id).lean().exec(
-  function (e, docs) {
-    res.render('pages/pedidos', { "produtos": docs });
-  });
+	var id = req.query.produto;
+	Produtos.findById(id).lean().exec(
+		function (e, docs) {
+			res.json({produto:docs});
+			//res.json({price : docs.price, qtd : docs.availableQtd});
+		});
 });
 
 
@@ -79,7 +79,7 @@ router.get('/getProduto', function(req, res) {
 
 /* GET New User page. */
 router.get('/newuser', function(req, res) {
-res.render('pages/newuser', { title: 'Add New User' });
+	res.render('pages/newuser', { title: 'Add New User' });
 });
 
 module.exports = router;
