@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require("../db");
 var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
-var Pedidos = db.Mongoose.model('pedidocollection', db.ProductSchema, 'pedidocollection');
+var Pedidos = db.Mongoose.model('pedidocollection', db.PedidoSchema, 'pedidocollection');
 
 router.get('/', function(req, res) {
  var db = require("../db");

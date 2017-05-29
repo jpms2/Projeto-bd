@@ -19,8 +19,9 @@ var saleSchema = new mongoose.Schema({
 }, { collection: 'vendacollection' });
 
 var pedidoSchema = new mongoose.Schema({
-    produtoId : String,
+    produtoid : String,
     quantidade : Number,
+	valor : Number,
     data : Date
 }, { collection: 'pedidocollection' });
 

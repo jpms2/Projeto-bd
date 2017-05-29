@@ -1,6 +1,11 @@
 <html lang="en">
 	<head>
 		<% include ../partials/head %>
+		<script type="text/javascript">
+
+		function alerta(){
+		}
+		</script>
 	</head>
 	<body>
 		<div class="container">
@@ -10,20 +15,33 @@
 
 			<div class="row">
 				<div class="col-sm-8">
-					Data inicial:
-					<input type="date" name="dataInicial">
-	  				Data final:
-					<input type="date" name="dataFinal"><br><br>
-	  				<table class="table table-striped">
-						<tr>
-						    <th>Produto</th>
-						    <th>Quantidade</th>
-						    <th>Valor Total</th>
-						</tr>
-						<tr>
-		  				</tr>
-					</table>
-					<input type="button" name="imprimir" value="Imprimir">
+					<form action="relatorio" method="post" class="form-inline">
+						Data inicial:
+						<input type="date" id="dataInicial" name="dataInicial">
+		  				Data final:
+						<input type="date" id="dataFinal" name="dataFinal">
+						<button type="submit" class="btn btn-success">Inserir</button>
+						<br><br>
+						<table class="table table-striped">
+							<tr>
+							    <th>Produto</th>
+							    <th>Quantidade</th>
+							    <th>Valor Total</th>
+							    <th>Data</th>
+							</tr>
+						</table>
+		  				<table class="table table-striped">
+							
+							<% pedidos.forEach(function(pedido){ %>
+							<tr>
+								<td><%= pedido.produtoid%></td>
+								<td><%= pedido.quantidade%></td>
+								<td><%= pedido.valor%>R$</td>
+								<td><%= pedido.data.getDate()%>-<%= pedido.data.getMonth() + 1%>-<%= pedido.data.getFullYear()%></td>
+							</tr>
+							<%})%>
+						</table>
+					</form>
 				</div>
 			</div>
 		</div>

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var db = require("../db");
 var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
+var Pedidos = db.Mongoose.model('pedidocollection', db.PedidoSchema, 'pedidocollection');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,7 +27,26 @@ router.get('/estoque', function(req, res) {
 
 /* GET Relatório page. */
 router.get('/relatorio', function(req, res) {
-	res.render('pages/relatorio', { title: 'Hello, World!' });
+	var db = require("../db");
+	Pedidos.find({}).lean().exec(
+		function (e, docs) {
+			res.render('pages/relatorio', { "pedidos": docs });
+	});
+});
+
+router.post('/relatorio', function(req, res) {
+	var dataInicial = req.body.dataInicial;
+	var dataFinal = req.body.dataFinal;
+	var db = require("../db");
+	Pedidos.find({
+		data: {
+        $gte: dataInicial,
+        $lt: dataFinal
+    }
+	}).lean().exec(
+		function (e, docs) {
+			res.render('pages/relatorio', { "pedidos": docs });
+	});
 });
 
 // router.get('/pedidos', function(req, res) {
@@ -43,6 +64,23 @@ router.get('/getProduto', function(req, res) {
 			res.json({produto:docs});
 			//res.json({price : docs.price, qtd : docs.availableQtd});
 		});
+});
+
+router.post('/registrarPedido', function(req, res) {
+	var id = req.query.id;
+	var quantidade = parseInt(req.query.quantidade);
+	var valor = parseInt(req.query.valor);
+	var now = new Date;
+	var pedido = new Pedidos({ produtoid: id, quantidade: quantidade, valor: valor,	data: now });
+	pedido.save(function (err) {
+		if (err) {
+			console.log("Error! " + err.message);
+			return err;
+		}
+		else{
+			console.log("Post saved");
+		}
+	});
 });
 
 
