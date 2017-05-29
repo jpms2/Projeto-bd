@@ -1,4 +1,5 @@
 # Projeto-bd
-Para Rodar:
- 1 - no Root do projeto: >npm start
- 2 - no C:\Program Files\MongoDB\Server\3.4\bin: >mongod --dbpath <Root do Projeto>\data\
+Para Rodar:  
+ 1 - no Root do projeto: >npm start  
+ 2 - no C:\Program Files\MongoDB\Server\3.4\bin: >mongod --dbpath <Root do Projeto>\data\  
+ 3 - No Browser localhost:3000/pedidos
