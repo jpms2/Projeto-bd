@@ -13,9 +13,9 @@
 		}
 
 		function registrarPedido(){
-			var x = document.getElementById("dataTable");
-			for (var i = 0; i < x.rows.length; i++) {
-		    	var id = x.rows[i].cells[4].children[0].value
+			var x = document.getElementById("table");
+			for (var i = 1; i < x.rows.length; i++) {
+		    	var id = x.rows[i].cells[3].children[1].value
 		    	var quantidade = x.rows[i].cells[1].children[0].value
 		    	var valor = x.rows[i].cells[2].children[0].value
 		    	$.ajax({type: "POST", url: "/registrarPedido?id="+id+"&quantidade="+quantidade+"&valor="+valor});
@@ -63,12 +63,9 @@
 			var cell4 = row.insertCell(3);
 			cell4.appendChild(element4);
 
-			var cell4 = row.insertCell(4);
 			var element4 = document.createElement("input")
 			var id = document.getElementById("id").value;
 		    element4.type = "text";
-			element4.name = "txtbox[]";
-			element4.disabled="disabled";
 		    element4.value = id;
 		    element4.style.display = "none";
 			cell4.appendChild(element4);
@@ -106,18 +103,18 @@
 				Quantidade:
 				<input type="number" id="quantidade" name="quantidade" value ="0" min="0" max="100"><br><br>
 				<input type="text" name="id" id="id" style="display: none">
-				<input type="button" name="Inserir" value="Inserir" onclick="addRow('dataTable')" class="btn btn-success">
+				<input type="button" name="Inserir" value="Inserir" onclick="addRow('table')" class="btn btn-success">
 
 			</div>
 			<div class="col-sm-4">
-				<table id="titleTable" class="table table-striped">
+				<table id="table" class="table table-striped table-bordered">
 					<tr>
 						<th>Produto</th>
 						<th>Quantidade</th>
 						<th>Preço</th>
+						<th>Ação</th>
 					</tr>
-				<table id="dataTable" class="table table-striped">
-				</table>
+				<table>
 				<input type="button" name="Concluir" value="Concluir" class="btn btn-success" onclick="registrarPedido()">
 			</div>
 		</div>

@@ -22,7 +22,7 @@
 						<input type="date" id="dataFinal" name="dataFinal">
 						<button type="submit" class="btn btn-success">Inserir</button>
 						<br><br>
-						<table class="table table-striped">
+						<table class="table table-striped table-bordered">
 						<thead>
 						<tr>
 							    <th>Produto</th>
@@ -34,7 +34,7 @@
 							<tbody>
 								<% pedidos.forEach(function(pedido){ %>
 							<tr>
-								<td><%= pedido.produtoId %></td>
+								<td><%= pedido.produtoid %></td>
 								<td><%= pedido.quantidade%></td>
 								<td><%= pedido.valor%>R$</td>
 								<td><%= pedido.data.getDate()%>-<%= pedido.data.getMonth() + 1%>-<%= pedido.data.getFullYear()%></td>
