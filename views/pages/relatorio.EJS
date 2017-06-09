@@ -23,23 +23,26 @@
 						<button type="submit" class="btn btn-success">Inserir</button>
 						<br><br>
 						<table class="table table-striped">
-							<tr>
+						<thead>
+						<tr>
 							    <th>Produto</th>
 							    <th>Quantidade</th>
 							    <th>Valor Total</th>
 							    <th>Data</th>
 							</tr>
-						</table>
-		  				<table class="table table-striped">
-							
-							<% pedidos.forEach(function(pedido){ %>
+						</thead>
+							<tbody>
+								<% pedidos.forEach(function(pedido){ %>
 							<tr>
-								<td><%= pedido.produtoid%></td>
+								<td><%= pedido.produtoId %></td>
 								<td><%= pedido.quantidade%></td>
 								<td><%= pedido.valor%>R$</td>
 								<td><%= pedido.data.getDate()%>-<%= pedido.data.getMonth() + 1%>-<%= pedido.data.getFullYear()%></td>
 							</tr>
 							<%})%>
+							</tbody>
+							
+							
 						</table>
 					</form>
 				</div>

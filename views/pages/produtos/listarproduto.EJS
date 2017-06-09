@@ -13,6 +13,7 @@
 					<tr>
 						<th>Nome</th>
 						<th>Preço</th>
+						<th>Quantidade</th>
 						<th>Ação</th>
 					</tr>
 				</thead>
@@ -20,8 +21,9 @@
 					<% produtos.forEach(function(produto){ %>
 					<tr>
 						<td><%= produto.name%></td>
-						<td><%= produto.price%>R$</td>
-						<td><a href=<%= "deletarproduto?id=" + produto._id %> class="btn btn-danger btn-sm">Deletar </a> <a href=<%= "editarproduto?id=" + produto._id %> class="btn btn-danger btn-sm">Editar </a></td>
+						<td><%= produto.price%> R$</td>
+						<td><%= produto.availableQtd %></td>
+						<td><a href=<%= "editarproduto?id=" + produto._id %> class="btn btn-warning btn-sm">Editar </a> <a href=<%= "deletarproduto?id=" + produto._id %> class="btn btn-danger btn-sm">Deletar </a> </td>
 					</tr>
 					<%})%>
 				</tbody>

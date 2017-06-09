@@ -13,7 +13,7 @@
 						<label for="nome"> Nome: </label>
 						<input type="text" name="nome" value="<%= produto.name%>"><br><br>
 						<label for="preco"> Preço: </label>
-		  				<input type="number" name="preco" value="<%= produto.price%>" min="0" max="1000"><br><br>
+		  				<input type="number" step="0.01" name="preco" value="<%= produto.price%>" min="0" max="1000"><br><br>
 		  				<label for="estoque"> Quantidade em estoque: </label>
 						<input type="number" name="estoque" value ="<%= produto.availableQtd%>" min="0" max="1000"><br><br>
 						<input type="text" name="id" value="<%= produto._id%>" style="display: none;">
