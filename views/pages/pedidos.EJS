@@ -15,12 +15,12 @@
 		function registrarPedido(){
 			var x = document.getElementById("table");
 			for (var i = 1; i < x.rows.length; i++) {
-		    	var id = x.rows[i].cells[3].children[1].value
-		    	var quantidade = x.rows[i].cells[1].children[0].value
-		    	var valor = x.rows[i].cells[2].children[0].value
-		    	$.ajax({type: "POST", url: "/registrarPedido?id="+id+"&quantidade="+quantidade+"&valor="+valor});
+				var id = x.rows[i].cells[3].children[1].value
+				var quantidade = x.rows[i].cells[1].children[0].value
+				var valor = x.rows[i].cells[2].children[0].value
+				$.ajax({type: "POST", url: "/registrarPedido?id="+id+"&quantidade="+quantidade+"&valor="+valor});
 
-		   	}
+			}
 		}
 
 
@@ -58,25 +58,25 @@
 			cell3.appendChild(element3);
 
 			var element4 = document.createElement("TD")
-		    var strHtml5 = "<INPUT TYPE=\"Button\" CLASS=\"btn btn-danger btn-sm\" onClick=\"delRow()\" VALUE=\"Deletar\">";
-		    element4.innerHTML = strHtml5.replace(/!count!/g,"count");
+			var strHtml5 = "<INPUT TYPE=\"Button\" CLASS=\"btn btn-danger btn-sm\" onClick=\"delRow()\" VALUE=\"Deletar\">";
+			element4.innerHTML = strHtml5.replace(/!count!/g,"count");
 			var cell4 = row.insertCell(3);
 			cell4.appendChild(element4);
 
 			var element4 = document.createElement("input")
 			var id = document.getElementById("id").value;
-		    element4.type = "text";
-		    element4.value = id;
-		    element4.style.display = "none";
+			element4.type = "text";
+			element4.value = id;
+			element4.style.display = "none";
 			cell4.appendChild(element4);
 
 		}
 
 		function delRow(){
-		    var current = window.event.srcElement;
+			var current = window.event.srcElement;
 		    //here we will delete the line
 		    while ( (current = current.parentElement)  && current.tagName !="TR");
-		         current.parentElement.removeChild(current);
+		    current.parentElement.removeChild(current);
 		}
 
 	</script>
@@ -87,37 +87,35 @@
 			<% include ../partials/header %>
 		</header>
 
-		<div class="center-container">
-			<div class="col-sm-4">
-				Produtos:
-				<select id="selectBox" onchange="javascript:selecionarProduto(this);">
+		<div class="col-sm-4">
+			Produtos:
+			<select id="selectBox" onchange="javascript:selecionarProduto(this);">
 				<option></option>
-					<% produtos.forEach(function(produto){ %>
-					<option value="<%= produto._id%>"><%= produto.name%></option>
-					<%})%>
-				</select><br><br>
-				Nome:
-				<input type="text" name="nome" id="nome"><br><br>
-				Preço unidade:
-				<input type="text" name="preco" id="preco" size="5" ><br><br>
-				Quantidade:
-				<input type="number" id="quantidade" name="quantidade" value ="0" min="0" max="100"><br><br>
-				<input type="text" name="id" id="id" style="display: none">
-				<input type="button" name="Inserir" value="Inserir" onclick="addRow('table')" class="btn btn-success">
+				<% produtos.forEach(function(produto){ %>
+				<option value="<%= produto._id%>"><%= produto.name%></option>
+				<%})%>
+			</select><br><br>
+			Nome:
+			<input type="text" name="nome" id="nome"><br><br>
+			Preço unidade:
+			<input type="text" name="preco" id="preco" size="5" ><br><br>
+			Quantidade:
+			<input type="number" id="quantidade" name="quantidade" value ="0" min="0" max="100"><br><br>
+			<input type="text" name="id" id="id" style="display: none">
+			<input type="button" name="Inserir" value="Inserir" onclick="addRow('table')" class="btn btn-success">
 
-			</div>
-			<div class="col-sm-4">
-				<table id="table" class="table table-striped table-bordered">
-					<tr>
-						<th>Produto</th>
-						<th>Quantidade</th>
-						<th>Preço</th>
-						<th>Ação</th>
-					</tr>
-				<table>
-				<input type="button" name="Concluir" value="Concluir" class="btn btn-success" onclick="registrarPedido()">
-			</div>
 		</div>
+		<div class="col-sm-8">
+			<table id="table" class="table table-striped table-bordered">
+				<tr>
+					<th>Produto</th>
+					<th>Quantidade</th>
+					<th>Preço</th>
+					<th>Ação</th>
+				</tr>
+				<table>
+					<input type="button" name="Concluir" value="Concluir" class="btn btn-success" onclick="registrarPedido()">
+				</div>
 	</div>
 </body>
 </html>
