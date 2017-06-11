@@ -76,6 +76,13 @@ router.get('/deletar', function(req,res){
   }});
 });
 
-
+//JSON
+router.get('/getProduto', function(req, res) {
+	var id = req.query.produto;
+	Produtos.findById(id).lean().exec(
+		function (e, docs) {
+			res.json({produto:docs});
+		});
+});
 
 module.exports = router;

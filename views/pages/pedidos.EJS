@@ -4,7 +4,7 @@
 	<script type="text/javascript">
 		function selecionarProduto(select){
 			var produtoEscolhido = $(select).val();
-			$.ajax({url: "/getProduto?produto="+produtoEscolhido, success: function(result){
+			$.ajax({url: "/produtos/getProduto?produto="+produtoEscolhido, success: function(result){
 				$("#preco").val(result.produto.price);
 				$("#nome").val(result.produto.name);
 				$("#id").val(result.produto._id);
