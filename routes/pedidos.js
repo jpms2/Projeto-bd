@@ -19,13 +19,30 @@ router.post('/registrarPedido', function(req, res) {
 	var quantidade = parseInt(req.query.quantidade);
 	var valor = parseInt(req.query.valor);
 	var now = new Date;
-	var pedido = new Pedidos({ produtoid: id, nomeproduto: nome,nomevendedor: nomeVendedor, quantidade: quantidade, valor: valor, data: now });
+
+	var quantidadeproduto = parseInt(req.query.quantidadeproduto);
+	var pedido = new Pedidos({ produtoid: id, nomeproduto: nome, nomevendedor : nomeVendedor, quantidade: quantidade, valor: valor,	data: now });
 	pedido.save(function (err) {
 		if (err) {
 			console.log("Error! " + err.message);
 			return err;
 		}
 		else{
+			var quantidadefinal = quantidadeproduto - quantidade
+			if (quantidadefinal <= 0){
+				quantidadefinal = 0;
+			}
+			Produtos.findByIdAndUpdate(id, {$set: {
+				availableQtd: quantidadefinal }}, function (err) {
+				if (err) {
+					console.log("Error! " + err.message);
+					return err;
+				}
+				else{
+					console.log("Post edited");
+					res.redirect("listar");
+				}
+				});
 			console.log("Post saved");
 		}
 	});

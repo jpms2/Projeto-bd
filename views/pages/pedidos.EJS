@@ -8,6 +8,7 @@
 				$("#preco").val(result.produto.price);
 				$("#nome").val(result.produto.name);
 				$("#id").val(result.produto._id);
+				$("#quantidadeproduto").val(result.produto.availableQtd);
 			}});
 			document.getElementById('quantidade').value = 1;
 		}
@@ -19,7 +20,11 @@
 				var quantidade = x.rows[i].cells[1].children[0].value
 				var valor = x.rows[i].cells[2].children[0].value
 				var nome = x.rows[i].cells[0].children[0].value
-				$.ajax({type: "POST", url: "/pedidos/registrarPedido?id="+id+"&nome="+nome+"&quantidade="+quantidade+"&valor="+valor});
+				$.ajax({url: "/produtos/getProduto?produto="+id, success: function(result){
+					$("#quantidadeproduto").val(result.produto.availableQtd);
+				}});
+				var quantidadeproduto = document.getElementById("quantidadeproduto").value;
+				$.ajax({type: "POST", url: "/pedidos/registrarPedido?id="+id+"&nome="+nome+"&quantidade="+quantidade+"&valor="+valor+"&quantidadeproduto="+quantidadeproduto});
 				alert("Produto registrado com sucesso.");
 			}
 		}
@@ -130,6 +135,7 @@
 
 			<div class="form-group">
 				<input type="text" name="id" id="id" value="" class="hidden">
+				<input type="text" name="quantidadeproduto" id="quantidadeproduto" value="" class="hidden">
 				<input type="button" value="Inserir Produto" onclick="addRow('table')" class="btn btn-success">
 			</div>
 		</div>
