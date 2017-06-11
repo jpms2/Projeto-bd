@@ -39,7 +39,7 @@ router.post('/', function(req, res) {
                     }if (docs[i].data.getHours() < 14 && docs[i].data.getHours() >= 12){
                         timeArray[2].qtd++;
                         timeArray[2].totalBought += docs[i].valor
-                    }if (docs[i].data.getHours() < 16 && docs[i].data.getHours() >= 18){
+                    }if (docs[i].data.getHours() < 16 && docs[i].data.getHours() >= 14){
                         timeArray[3].qtd++;
                         timeArray[3].totalBought += docs[i].valor
                     }if (docs[i].data.getHours() < 18 && docs[i].data.getHours() >= 16){
