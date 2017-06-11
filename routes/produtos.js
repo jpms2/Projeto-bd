@@ -76,4 +76,6 @@ router.get('/deletar', function(req,res){
   }});
 });
 
+
+
 module.exports = router;

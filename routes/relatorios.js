@@ -31,4 +31,8 @@ router.post('/relatorioHorarioPico', function(req, res) {
 	});
 });
 
+
+
+
+
 module.exports = router;

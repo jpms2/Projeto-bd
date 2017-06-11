@@ -12,4 +12,21 @@ router.get('/', function(req, res) {
   });
 });
 
+router.post('/registrarPedido', function(req, res) {
+	var id = req.query.id;
+	var quantidade = parseInt(req.query.quantidade);
+	var valor = parseInt(req.query.valor);
+	var now = new Date;
+	var pedido = new Pedidos({ produtoid: id, quantidade: quantidade, valor: valor,	data: now });
+	pedido.save(function (err) {
+		if (err) {
+			console.log("Error! " + err.message);
+			return err;
+		}
+		else{
+			console.log("Post saved");
+		}
+	});
+});
+
 module.exports = router;
