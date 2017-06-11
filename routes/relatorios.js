@@ -30,7 +30,7 @@ router.post('/', function(req, res) {
             if(type == "peaktime"){
                 timeArray = [{"time" : "08:00 - 10:00", "qtd" : 0, "totalBought": 0},{"time" : "10:00 - 12:00", "qtd" : 0, "totalBought": 0},{"time" : "12:00 - 14:00", "qtd" : 0, "totalBought": 0},{"time" : "14:00 - 16:00", "qtd" : 0, "totalBought": 0},{"time" : "16:00 - 18:00", "qtd" : 0, "totalBought": 0}];
                 for (var i = 0; docs[i] ; i++) {
-                    if (docs[i].data.getHours() < 10){
+                    if (docs[i].data.getHours() < 10 && docs[i].data.getHours() >= 8){
                         timeArray[0].qtd++;
                         timeArray[0].totalBought += docs[i].valor
                     }if (docs[i].data.getHours() < 12 && docs[i].data.getHours() >= 10){
