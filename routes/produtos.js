@@ -3,12 +3,12 @@ var router = express.Router();
 var db = require("../db");
 var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
 
-router.get('/inserirproduto', function(req, res, next) {
-  res.render('pages/produtos/inserirproduto');
+//Add
+router.get('/adicionar', function(req, res, next) {
+  res.render('pages/produtos/add');
 });
 
-
-router.post('/inserirproduto', function (req, res) {
+router.post('/adicionar', function (req, res) {
 	var name = req.body.nome;
 	var price = req.body.preco;
 	var availableQtd = req.body.estoque;
@@ -21,12 +21,21 @@ router.post('/inserirproduto', function (req, res) {
 		}
 		else{
 			console.log("Post saved");
-			res.redirect("listarproduto");
+			res.redirect("listar");
 		}
 	});
 });
 
-router.post('/editarproduto', function (req, res) {
+//Edit
+router.get('/editar', function(req, res) {
+ var id = req.query.id;
+ Produtos.findById(id).lean().exec(
+ function (e, docs) {
+    res.render('pages/produtos/edit', { "produto": docs });
+  });
+});
+
+router.post('/editar', function (req, res) {
 	var name = req.body.nome;
 	var price = req.body.preco;
 	var availableQtd = req.body.estoque;
@@ -41,36 +50,29 @@ router.post('/editarproduto', function (req, res) {
 		}
 		else{
 			console.log("Post edited");
-			res.redirect("listarproduto");
+			res.redirect("listar");
 		}
 		});
 });
 
-
-router.get('/listarproduto', function(req, res) {
+//List
+router.get('/listar', function(req, res) {
  var db = require("../db");
  Produtos.find({}).lean().exec(
   function (e, docs) {
-    res.render('pages/produtos/listarproduto', { "produtos": docs });
+    res.render('pages/produtos/list', { "produtos": docs });
   });
 });
 
-router.get('/editarproduto', function(req, res) {
- var id = req.query.id;
- Produtos.find({ _id: id }).lean().exec(
- function (e, docs) {
-    res.render('pages/produtos/editarproduto', { "produtos": docs });
-  });
-});
-
-router.get('/deletarproduto', function(req,res){
+//Delete
+router.get('/deletar', function(req,res){
   var id = req.query.id;
   Produtos.findByIdAndRemove(id,function(err){
     if(err){
      console.log("Error! " + err.message);
      return err; 
    }else{
-    res.redirect("listarproduto");
+    res.redirect("listar");
   }});
 });
 
