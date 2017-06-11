@@ -9,46 +9,66 @@
 		</header>
 		<!-- miséricordia -->
 		<div style="width:99%; margin:auto"> 
-			<form action="relatorio" method="post" class="form-inline">
+			<form action="relatorios" method="post" class="form-inline">
 				<div class="form-group">
 					<label for="dataInicial">Data Inicial:</label>
-					<input type="date" class="form-control" id="dataInicial" name="dataInicial">
+					<input type="date" value='<%=dataInicial%>' class="form-control" id="dataInicial" name="dataInicial">
 				</div>
 
 				<div class="form-group">
-					<label for="dataFinal">Data final:</label>
-					<input type="date" class="form-control" id="dataFinal" name="dataFinal">
+					<label for="dataFinal">Data Final:</label>
+					<input type="date" value='<%=dataFinal%>' class="form-control" id="dataFinal" name="dataFinal">
 				</div>
 				<div class="form-group">
 					<label for="tipoRelatorio">Tipo:</label>
-					<select id="selectBox" name="type" class="form-control" onchange="selecionarProduto(this);">
-						<option value="balance">Balanço de Vendas</option>
-						<option value="peaktime">Horário de Pico</option>
+					<select id="selectBox" name="type" class="form-control">
+						<option <%if(type=="balance"){%> selected="selected" <%}%> value="balance">Balanço de Vendas</option>
+						<option <%if(type=="peaktime"){%> selected="selected" <%}%> value="peaktime">Horário de Pico</option>
 					</select>
 				</div>
-				<button type="button" onclick="submitFilter()" class="btn btn-success">Pesquisar</button>
+				<button type="submit" class="btn btn-success">Pesquisar</button>
 			</form>
-			<table class="table table-striped table-bordered">
-				<thead>
-					<tr>
-						<th>Produto</th>
-						<th>Quantidade</th>
-						<th>Valor Total</th>
-						<th>Data</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% pedidos.forEach(function(pedido){ %>
-					<tr>
-						<td><%= pedido.produtoid %></td>
-						<td><%= pedido.quantidade%></td>
-						<td><%= pedido.valor%>R$</td>
-						<td><%= pedido.data.getDate()%>/<%= pedido.data.getMonth() + 1%>/<%= pedido.data.getFullYear()%></td>
-					</tr>
-					<%})%>
-				</tbody>
-			</table>
+			<% if (type=="peaktime") { %>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Intervalo de Tempo</th>
+							<th>Quantidade Vendida</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% array.forEach(function(item){ %>
+						<tr>
+							<td><%= item.time %></td>
+							<td><%= item.qtd%></td>
+						</tr>
+						<%})%>
+					</tbody>
+				</table>
 
+			<%} else{ %>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Produto</th>
+							<th>Quantidade</th>
+							<th>Valor Total</th>
+							<th>Data</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% array.forEach(function(pedido){ %>
+						<tr>
+							<td><%= pedido.produtoid %></td>
+							<td><%= pedido.quantidade%></td>
+							<td><%= pedido.valor%>R$</td>
+							<td><%= pedido.data.getDate()%>/<%= pedido.data.getMonth() + 1%>/<%= pedido.data.getFullYear()%></td>
+						</tr>
+						<%})%>
+					</tbody>
+				</table>
+
+			<%}%>
 		</div>
 	</div>
 </body>

@@ -3,16 +3,19 @@ var router = express.Router();
 var db = require("../db");
 var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
 var Pedidos = db.Mongoose.model('pedidocollection', db.PedidoSchema, 'pedidocollection');
+var dateFormat = require('dateformat');
 
 router.get('/', function(req, res) {
     var db = require("../db");
+    var now = new Date();
+    var today = dateFormat("yyyy-mm-dd");	
     Pedidos.find({}).lean().exec(
         function (e, docs) {
-            res.render('pages/relatorio', { "pedidos": docs });
+            res.render('pages/relatorio', { dataInicial: "",dataFinal: today, type:"balance","array": docs }); // lil gambi
     });
 });
 
-router.post('/search', function(req, res) {
+router.post('/', function(req, res) {
 	var dataInicial = req.body.dataInicial;
 	var dataFinal = req.body.dataFinal;
     var type = req.body.type;
@@ -37,9 +40,9 @@ router.post('/search', function(req, res) {
                         timeArray[3].qtd++;
                     }
                 }
-                res.render('pages/relatorio', { "dataInicial": dataInicial,"dataFinal": dataFinal, "type": type, "array": timeArray});
+                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray});
             }else{
-                res.render('pages/relatorio', { "dataInicial": dataInicial,"dataFinal": dataFinal, "type": type, "array": docs});
+                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs});
             }
 	});
 });
