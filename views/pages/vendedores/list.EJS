@@ -16,12 +16,20 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% vendedores.forEach(function(seller){ %>
-					<tr>
-						<td><%= seller.nome%></td>
-						<td><a href=<%= "deletar?id=" + seller._id %> class="btn btn-danger btn-sm">Deletar</a></td>
-					</tr>
-					<%})%>
+					<% if(vendedores.length == 0) {%>
+						<tr>
+							<td align="center" colspan="2">
+								Não há vendedores registrados
+							</td>
+						</tr>
+					<%}else{%>
+						<% vendedores.forEach(function(seller){ %>
+						<tr>
+							<td><%= seller.nome%></td>
+							<td><a href=<%= "deletar?id=" + seller._id %> class="btn btn-danger btn-sm">Deletar</a></td>
+						</tr>
+						<%})%>
+					<% }%>
 				</tbody>
 			</table>
 		</div>

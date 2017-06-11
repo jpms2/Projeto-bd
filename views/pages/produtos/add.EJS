@@ -1,0 +1,41 @@
+<html lang="en">
+	<head>
+		<% include ../../partials/head %>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<% include ../../partials/header %>
+			</header>	
+			<form action="adicionar" method="post" class="form-horizontal">
+				
+				<div class="form-group">
+					<label for="nome" class="control-label col-sm-2"> Nome: </label>
+					<div class="col-sm-3">
+						<input class="form-control" type="text" name="nome">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="preco" class="control-label col-sm-2"> Preço: </label>
+					<div class="col-sm-2">
+	  					<input class="form-control" type="number" step="0.01" name="preco" value="0" min="0" max="1000">
+	  				</div>
+	  			</div>
+	  			
+	  			<div class="form-group">
+	  				<label for="estoque" class="control-label col-sm-2"> Quantidade: </label>
+	  				<div class="col-sm-2">
+						<input class="form-control" type="number" name="estoque" value ="0" min="0" max="1000">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-3">
+						<button type="submit" class="btn btn-success">Inserir</button>	
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
