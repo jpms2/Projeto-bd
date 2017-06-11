@@ -99,7 +99,7 @@
 			<div class="form-group"> 
 				<label for="selectBox">Produtos:</label>
 				<select id="selectBox" class="form-control" onchange="selecionarProduto(this);">
-				<option>Inserir Novo Produto</option>
+				<option></option>
 				<% produtos.forEach(function(produto){ %>
 					<option value="<%= produto._id%>"><%= produto.name%></option>
 				<%})%>
