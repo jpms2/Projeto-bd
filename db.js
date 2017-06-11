@@ -20,7 +20,7 @@ var saleSchema = new mongoose.Schema({
 
 var pedidoSchema = new mongoose.Schema({
     produtoid : String,
-	nomeProduto : String,
+	nomeproduto : String,
     quantidade : Number,
 	valor : Number,
     data : Date

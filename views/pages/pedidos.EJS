@@ -18,58 +18,64 @@
 				var id = x.rows[i].cells[3].children[1].value
 				var quantidade = x.rows[i].cells[1].children[0].value
 				var valor = x.rows[i].cells[2].children[0].value
-				$.ajax({type: "POST", url: "/registrarPedido?id="+id+"&quantidade="+quantidade+"&valor="+valor});
-
+				var nome = x.rows[i].cells[0].children[0].value
+				$.ajax({type: "POST", url: "/pedidos/registrarPedido?id="+id+"&nome="+nome+"&quantidade="+quantidade+"&valor="+valor});
+				alert("Produto registrado com sucesso.");
 			}
 		}
 
 
 		function addRow(tableID) {
 
-			var table = document.getElementById(tableID);
-
-			var rowCount = table.rows.length;
-			var row = table.insertRow(rowCount);
-
-			var cell1 = row.insertCell(0);
-			var element1 = document.createElement("input");
-			element1.type = "text";
-			element1.name = "txtbox[]";
-			element1.disabled="disabled";
-			element1.value = document.getElementById("nome").value;
-			cell1.appendChild(element1);
-
-			var cell2 = row.insertCell(1);
-			var element2 = document.createElement("input");
-			element2.type = "text";
-			element2.name = "txtbox[]";
-			element2.disabled="disabled";
-			var quantidade = document.getElementById("quantidade").value ;
-			element2.value = quantidade;
-			cell2.appendChild(element2);
-
-			var cell3 = row.insertCell(2);
-			var element3 = document.createElement("input");
-			element3.type = "text";
-			element3.name = "txtbox[]";
-			element3.disabled="disabled";
-			var preco = document.getElementById("preco").value;
-			element3.value = preco * quantidade;
-			cell3.appendChild(element3);
-
-			var element4 = document.createElement("TD")
-			var strHtml5 = "<INPUT TYPE=\"Button\" CLASS=\"btn btn-danger btn-sm\" onClick=\"delRow()\" VALUE=\"Deletar\">";
-			element4.innerHTML = strHtml5.replace(/!count!/g,"count");
-			var cell4 = row.insertCell(3);
-			cell4.appendChild(element4);
-
-			var element4 = document.createElement("input")
 			var id = document.getElementById("id").value;
-			element4.type = "text";
-			element4.value = id;
-			element4.style.display = "none";
-			cell4.appendChild(element4);
+			if (id == ""){
+				alert("Selecione um produto.");
+			}else{
 
+				var table = document.getElementById(tableID);
+
+				var rowCount = table.rows.length;
+				var row = table.insertRow(rowCount);
+
+				var cell1 = row.insertCell(0);
+				var element1 = document.createElement("input");
+				element1.type = "text";
+				element1.name = "txtbox[]";
+				element1.disabled="disabled";
+				element1.value = document.getElementById("nome").value;
+				cell1.appendChild(element1);
+
+				var cell2 = row.insertCell(1);
+				var element2 = document.createElement("input");
+				element2.type = "text";
+				element2.name = "txtbox[]";
+				element2.disabled="disabled";
+				var quantidade = document.getElementById("quantidade").value ;
+				element2.value = quantidade;
+				cell2.appendChild(element2);
+
+				var cell3 = row.insertCell(2);
+				var element3 = document.createElement("input");
+				element3.type = "text";
+				element3.name = "txtbox[]";
+				element3.disabled="disabled";
+				var preco = document.getElementById("preco").value;
+				element3.value = preco * quantidade;
+				cell3.appendChild(element3);
+
+				var element4 = document.createElement("TD")
+				var strHtml5 = "<INPUT TYPE=\"Button\" CLASS=\"btn btn-danger btn-sm\" onClick=\"delRow()\" VALUE=\"Deletar\">";
+				element4.innerHTML = strHtml5.replace(/!count!/g,"count");
+				var cell4 = row.insertCell(3);
+				cell4.appendChild(element4);
+
+				var element4 = document.createElement("input")
+				
+				element4.type = "text";
+				element4.value = id;
+				element4.style.display = "none";
+				cell4.appendChild(element4);
+			}
 		}
 
 		function delRow(){
@@ -99,7 +105,7 @@
 			<div class="form-group"> 
 				<label for="selectBox">Produtos:</label>
 				<select id="selectBox" class="form-control" onchange="selecionarProduto(this);">
-				<option></option>
+				<option selected hidden>Selecione um produto</option>
 				<% produtos.forEach(function(produto){ %>
 					<option value="<%= produto._id%>"><%= produto.name%></option>
 				<%})%>
@@ -123,7 +129,7 @@
 			</div>
 
 			<div class="form-group">
-				<input type="text" name="id" id="id" class="hidden">
+				<input type="text" name="id" id="id" value="" class="hidden">
 				<input type="button" value="Inserir Produto" onclick="addRow('table')" class="btn btn-success">
 			</div>
 		</div>
