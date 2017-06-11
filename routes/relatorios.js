@@ -17,6 +17,9 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
 	var dataInicial = req.body.dataInicial;
+    if(!dataInicial){
+        dataInicial = new Date("2015-01-01");
+    }
 	var dataFinal = req.body.dataFinal;
     var type = req.body.type;
 	var db = require("../db");
