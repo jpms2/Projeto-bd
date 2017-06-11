@@ -8,22 +8,36 @@ var dateFormat = require('dateformat');
 router.get('/', function(req, res) {
     var db = require("../db");
     var now = new Date();
-    var today = dateFormat("yyyy-mm-dd");	
+    var tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    var tomorrowStr = dateFormat(tomorrow,"yyyy-mm-dd");
+
     Pedidos.find({}).lean().exec(
         function (e, docs) {
-            res.render('pages/relatorio', { dataInicial: "",dataFinal: today, type:"balance","array": docs }); // lil gambi
+            res.render('pages/relatorio', { dataInicial: "",dataFinal: tomorrowStr, type:"balance","array": docs }); // lil gambi
     });
 });
 
 router.post('/', function(req, res) {
+    
 	var dataInicial = req.body.dataInicial;
-	var dataFinal = req.body.dataFinal;
+    var dataFinal = req.body.dataFinal;
     var type = req.body.type;
+
+    var queryStartDate = dataInicial;
+    var queryEndDate = dataFinal;
+
+    if(!dataInicial){
+        queryStartDate = new Date("2015-01-01");
+    }
+    if(!dataFinal){
+        queryEndDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    }
+
 	var db = require("../db");
 	Pedidos.find({
 		data: {
-        $gte: dataInicial,
-        $lte: dataFinal
+        $gte: queryStartDate,
+        $lte: queryEndDate
     	}
 	}).lean().exec(
 		function (e, docs) {
