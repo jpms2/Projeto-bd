@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require("../db");
 var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
 var Pedidos = db.Mongoose.model('pedidocollection', db.PedidoSchema, 'pedidocollection');
+var Vendedores = db.Mongoose.model('vendedorcollection', db.SellerSchema, 'vendedorcollection');
 var dateFormat = require('dateformat');
 
 router.get('/', function(req, res) {
@@ -13,7 +14,10 @@ router.get('/', function(req, res) {
 
     Pedidos.find({}).lean().exec(
         function (e, docs) {
-            res.render('pages/relatorio', { dataInicial: "",dataFinal: tomorrowStr, type:"balance","array": docs }); // lil gambi
+			Vendedores.find({}).lean().exec(
+			  function (e, docss) {
+				  res.render('pages/relatorio', { dataInicial: "",dataFinal: tomorrowStr, type:"balance","array": docs, "vendedores": docss }); // lil gambi
+			  });
     });
 });
 

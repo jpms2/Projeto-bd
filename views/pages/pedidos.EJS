@@ -24,7 +24,11 @@
 					$("#quantidadeproduto").val(result.produto.availableQtd);
 				}});
 				var quantidadeproduto = document.getElementById("quantidadeproduto").value;
-				$.ajax({type: "POST", url: "/pedidos/registrarPedido?id="+id+"&nome="+nome+"&quantidade="+quantidade+"&valor="+valor+"&quantidadeproduto="+quantidadeproduto});
+				var vendedor = document.getElementById("selectBoxVendedior").value
+				if (vendedor == "Selecione um vendedor"){
+					vendedor = "";
+				}
+				$.ajax({type: "POST", url: "/pedidos/registrarPedido?id="+id+"&nome="+nome+"&quantidade="+quantidade+"&valor="+valor+"&quantidadeproduto="+quantidadeproduto+"&vendedor="+vendedor});
 				alert("Produto registrado com sucesso.");
 			}
 		}
@@ -113,6 +117,17 @@
 				<option selected hidden>Selecione um produto</option>
 				<% produtos.forEach(function(produto){ %>
 					<option value="<%= produto._id%>"><%= produto.name%></option>
+				<%})%>
+
+				</select>
+			</div>
+
+			<div class="form-group"> 
+				<label for="selectBox">Vendedores:</label>
+				<select id="selectBoxVendedior" class="form-control">
+				<option selected hidden>Selecione um vendedor</option>
+				<% vendedores.forEach(function(vendedor){ %>
+					<option value="<%= vendedor.nome%>"><%= vendedor.nome%></option>
 				<%})%>
 
 				</select>
