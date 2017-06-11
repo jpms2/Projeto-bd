@@ -28,7 +28,7 @@ router.post('/', function(req, res) {
 	}).lean().exec(
 		function (e, docs) {
             if(type == "peaktime"){
-                pricesArray = []
+                pricesArray = [0,0,0,0,0]
                 timeArray = [{"time" : "08:00 - 10:00", "qtd" : 0},{"time" : "10:00 - 12:00", "qtd" : 0},{"time" : "12:00 - 14:00", "qtd" : 0},{"time" : "14:00 - 16:00", "qtd" : 0},{"time" : "16:00 - 18:00", "qtd" : 0}];
                 for (var i = 0; docs[i] ; i++) {
                     if (docs[i].data.getHours() < 10){
