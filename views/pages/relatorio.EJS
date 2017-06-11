@@ -28,47 +28,57 @@
 				</div>
 				<button type="submit" class="btn btn-success">Pesquisar</button>
 			</form>
-			<% if (type=="peaktime") { %>
-				<table class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Intervalo de Tempo</th>
-							<th>Quantidade Vendida</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% array.forEach(function(item){ %>
-						<tr>
-							<td><%= item.time %></td>
-							<td><%= item.qtd%></td>
-						</tr>
-						<%})%>
-					</tbody>
-				</table>
+				<% if (type=="peaktime") { %>
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Intervalo de Tempo</th>
+								<th>Quantidade Vendida</th>
+								<th>Valor Ganho</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% array.forEach(function(item){ %>
+							<tr>
+								<td><%= item.time %></td>
+								<td><%= item.qtd%></td>
+								<td>R$ <%= item.totalBought%></td>
+							</tr>
+							<%})%>
+						</tbody>
+					</table>
 
-			<%} else{ %>
-				<table class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Produto</th>
-							<th>Quantidade</th>
-							<th>Valor Total</th>
-							<th>Data</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% array.forEach(function(pedido){ %>
-						<tr>
-							<td><%= pedido.produtoid %></td>
-							<td><%= pedido.quantidade%></td>
-							<td><%= pedido.valor%>R$</td>
-							<td><%= pedido.data.getDate()%>/<%= pedido.data.getMonth() + 1%>/<%= pedido.data.getFullYear()%></td>
-						</tr>
-						<%})%>
-					</tbody>
-				</table>
+				<%} else{ %>
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Produto</th>
+								<th>Quantidade</th>
+								<th>Valor Total</th>
+								<th>Data</th>
+							</tr>
+						</thead>
+						<tbody>
+						<% if(array.length == 0){ %>
+								<tr>
+									<td align="center" colspan="4">
+										A sua busca não retornou nenhuma venda
+									</td>
+								</tr>
+							<%} else {%>
+							<% array.forEach(function(pedido){ %>
+							<tr>
+								<td><%= pedido.produtoid %></td>
+								<td><%= pedido.quantidade%></td>
+								<td>R$ <%= pedido.valor%></td>
+								<td><%= pedido.data.getDate()%>/<%= pedido.data.getMonth() + 1%>/<%= pedido.data.getFullYear()%></td>
+							</tr>
+							<%})%>
+						<%}%>
+						</tbody>
+					</table>
 
-			<%}%>
+				<%}%>
 		</div>
 	</div>
 </body>
