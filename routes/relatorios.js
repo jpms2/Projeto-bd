@@ -23,24 +23,32 @@ router.post('/', function(req, res) {
 	Pedidos.find({
 		data: {
         $gte: dataInicial,
-        $lt: dataFinal
+        $lte: dataFinal
     	}
 	}).lean().exec(
 		function (e, docs) {
             if(type == "peaktime"){
-                timeArray = [{"time" : "00:00 - 06:00", "qtd" : 0},{"time" : "06:00 - 12:00", "qtd" : 0},{"time" : "12:00 - 18:00", "qtd" : 0},{"time" : "18:00 - 24:00", "qtd" : 0}];
+                pricesArray = []
+                timeArray = [{"time" : "08:00 - 10:00", "qtd" : 0},{"time" : "10:00 - 12:00", "qtd" : 0},{"time" : "12:00 - 14:00", "qtd" : 0},{"time" : "14:00 - 16:00", "qtd" : 0},{"time" : "16:00 - 18:00", "qtd" : 0}];
                 for (var i = 0; docs[i] ; i++) {
-                    if (docs[i].data.getHours() < 6){
+                    if (docs[i].data.getHours() < 10){
                         timeArray[0].qtd++;
-                    }if (docs[i].data.getHours() < 12 && docs[i].data.getHours() >= 6){
+                        pricesArray[0] += docs[i].valor
+                    }if (docs[i].data.getHours() < 12 && docs[i].data.getHours() >= 10){
                         timeArray[1].qtd++;
-                    }if (docs[i].data.getHours() < 18 && docs[i].data.getHours() >= 12){
+                        pricesArray[1] += docs[i].valor
+                    }if (docs[i].data.getHours() < 14 && docs[i].data.getHours() >= 12){
                         timeArray[2].qtd++;
-                    }if (docs[i].data.getHours() < 24 && docs[i].data.getHours() >= 18){
+                        pricesArray[2] += docs[i].valor
+                    }if (docs[i].data.getHours() < 16 && docs[i].data.getHours() >= 18){
                         timeArray[3].qtd++;
+                        pricesArray[3] += docs[i].valor
+                    }if (docs[i].data.getHours() < 18 && docs[i].data.getHours() >= 16){
+                        timeArray[4].qtd++;
+                        pricesArray[4] += docs[i].valor
                     }
                 }
-                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray});
+                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray, pricesArray: pricesArray});
             }else{
                 res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs});
             }
