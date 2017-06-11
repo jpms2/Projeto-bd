@@ -22,6 +22,7 @@ router.post('/', function(req, res) {
 	var dataInicial = req.body.dataInicial;
     var dataFinal = req.body.dataFinal;
     var type = req.body.type;
+    var sellerName = req.body.sellerName;
 
     var queryStartDate = dataInicial;
     var queryEndDate = dataFinal;
@@ -63,7 +64,17 @@ router.post('/', function(req, res) {
                 }
                 res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray});
             }else{
-                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs});
+                if(!sellerName){
+                    res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs});
+                }else{
+                    response = []
+                    for (var i = 0; docs[i] ; i++) {
+                        if(docs[i].nomevendedor == sellerName){
+                            response.push(docs[i]);
+                        }
+                    }
+                    res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: response});
+                }
             }
 	});
 });

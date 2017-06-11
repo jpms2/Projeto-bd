@@ -21,6 +21,7 @@ var saleSchema = new mongoose.Schema({
 var pedidoSchema = new mongoose.Schema({
     produtoid : String,
 	nomeproduto : String,
+	nomevendedor : String,
     quantidade : Number,
 	valor : Number,
     data : Date

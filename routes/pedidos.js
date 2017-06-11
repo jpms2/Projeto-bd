@@ -15,10 +15,11 @@ router.get('/', function(req, res) {
 router.post('/registrarPedido', function(req, res) {
 	var id = req.query.id;
 	var nome = req.query.nome;
+	var nomeVendedor = req.query.nomeVendedor;
 	var quantidade = parseInt(req.query.quantidade);
 	var valor = parseInt(req.query.valor);
 	var now = new Date;
-	var pedido = new Pedidos({ produtoid: id, nomeproduto: nome, quantidade: quantidade, valor: valor,	data: now });
+	var pedido = new Pedidos({ produtoid: id, nomeproduto: nome,nomevendedor: nomeVendedor, quantidade: quantidade, valor: valor, data: now });
 	pedido.save(function (err) {
 		if (err) {
 			console.log("Error! " + err.message);
