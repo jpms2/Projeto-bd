@@ -1,7 +1,34 @@
 <html lang="en">
 <head>
 	<% include ../partials/head %>
+	
+	<style type="text/css">
+		.form-control{
+			width:75%;
+			margin-left: 15px;
+		}
+
+		p{
+			margin: 0 0 0 0px;
+		}
+	</style>
+
 	<script type="text/javascript">
+		$(document).ready(function(){
+			totalValue = 0;
+			refreshTotalValue();
+		});
+
+		function updateTotalValue(newValue){
+			totalValue += newValue;
+			refreshTotalValue();
+		}
+		
+		function refreshTotalValue(){
+			var prefix = "Valor total: R$ ";
+			$('#totalValue').text(prefix + totalValue);
+		}
+
 		function selecionarProduto(select){
 			var produtoEscolhido = $(select).val();
 			$.ajax({url: "/produtos/getProduto?produto="+produtoEscolhido, success: function(result){
@@ -9,89 +36,102 @@
 				$("#nome").val(result.produto.name);
 				$("#id").val(result.produto._id);
 			}});
-			document.getElementById('quantidade').value = 1;
+			$('#quantidade').val(1);
 		}
 
 		function registrarPedido(){
-			var x = document.getElementById("table");
-			for (var i = 1; i < x.rows.length; i++) {
-				var id = x.rows[i].cells[3].children[1].value
-				var quantidade = x.rows[i].cells[1].children[0].value
-				var valor = x.rows[i].cells[2].children[0].value
-				var nome = x.rows[i].cells[0].children[0].value
-				$.ajax({type: "POST", url: "/pedidos/registrarPedido?id="+id+"&nome="+nome+"&quantidade="+quantidade+"&valor="+valor});
-				alert("Produto registrado com sucesso.");
-			}
+			var tableTRs = $('#table tbody tr');
+			var postData = [];
+			var data = {};
+					
+			$.each(tableTRs, function(i,obj){
+				if(i==0){
+					//empty table warning tr
+					//ignore it
+					return;
+				}
+				//TODO juntar tudo em um array só e mandar no corpo do post
+				var id = $(obj).find(".produtoId").val();
+				var quantidade = $(obj).find(".quantidadeProduto").text();
+				var valor = $(obj).find(".precoProduto").text();
+				var nome = $(obj).find(".nomeProduto").text();
+				var object = {id:id, quantidade:quantidade, nome:nome, valor:valor};
+				postData.push(object);
+			});
+
+			data.message = postData;
+			$.ajax({
+				type:"POST",
+				url:"/pedidos/registrarPedido",
+				data: JSON.stringify(postData),
+				contentType: 'application/json',
+				success: function(){
+					alert("Pedido registrado!\nValor total: " + totalValue );
+					location.reload(); // refreshes the page
+				}
+			})
 		}
 
-
-		function addRow(tableID) {
+		//só deus nessa função aqui
+		function addRow() {
+			$('#emptyTableWarning').hide();
 
 			var id = document.getElementById("id").value;
-			if (id == ""){
-				alert("Selecione um produto.");
-			}else{
+			var table = document.getElementById('table');
 
-				var table = document.getElementById(tableID);
+			var rowCount = table.rows.length;
+			var row = table.insertRow(rowCount);
 
-				var rowCount = table.rows.length;
-				var row = table.insertRow(rowCount);
+			var cell1 = row.insertCell(0);
+			var pName = document.createElement("p");
+		    var nomeProduto = document.createTextNode($('#nome').val());
+			pName.className = "nomeProduto";
+			pName.appendChild(nomeProduto);
+			cell1.appendChild(pName);
 
-				var cell1 = row.insertCell(0);
-				var element1 = document.createElement("input");
-				element1.type = "text";
-				element1.name = "txtbox[]";
-				element1.disabled="disabled";
-				element1.value = document.getElementById("nome").value;
-				cell1.appendChild(element1);
+			var cell2 = row.insertCell(1);
+			var pQtd = document.createElement("p");
+			var quantidade = $('#quantidade').val();
+		    var qtdProduto = document.createTextNode(quantidade);
+			pQtd.className = "quantidadeProduto";
+			pQtd.appendChild(qtdProduto);
+			cell2.appendChild(pQtd);
 
-				var cell2 = row.insertCell(1);
-				var element2 = document.createElement("input");
-				element2.type = "text";
-				element2.name = "txtbox[]";
-				element2.disabled="disabled";
-				var quantidade = document.getElementById("quantidade").value ;
-				element2.value = quantidade;
-				cell2.appendChild(element2);
 
-				var cell3 = row.insertCell(2);
-				var element3 = document.createElement("input");
-				element3.type = "text";
-				element3.name = "txtbox[]";
-				element3.disabled="disabled";
-				var preco = document.getElementById("preco").value;
-				element3.value = preco * quantidade;
-				cell3.appendChild(element3);
+			var cell3 = row.insertCell(2);
+			var pPreco = document.createElement("p");
+			pPreco.className = "precoProduto";
+			var preco = document.getElementById("preco").value;
+			var precoTotalProduto = preco * quantidade;
+		    var precoProduto = document.createTextNode(precoTotalProduto);
+			pPreco.appendChild(precoProduto);
+			cell3.appendChild(pPreco);
 
-				var element4 = document.createElement("TD")
-				var strHtml5 = "<INPUT TYPE=\"Button\" CLASS=\"btn btn-danger btn-sm\" onClick=\"delRow()\" VALUE=\"Deletar\">";
-				element4.innerHTML = strHtml5.replace(/!count!/g,"count");
-				var cell4 = row.insertCell(3);
-				cell4.appendChild(element4);
+			var element4 = document.createElement("TD")
+			var strHtml5 = "<INPUT TYPE=\"Button\" CLASS=\"btn btn-danger btn-sm\" onClick=\"delRow(this)\" VALUE=\"Deletar\">";
+			element4.innerHTML = strHtml5.replace(/!count!/g,"count");
+			var cell4 = row.insertCell(3);
+			cell4.appendChild(element4);
+			var element4 = document.createElement("input")
+			element4.type = "text";
+			element4.value = id;
+			element4.className = 'produtoId';
+			element4.style.display = "none";
+			cell4.appendChild(element4);
 
-				var element4 = document.createElement("input")
-				
-				element4.type = "text";
-				element4.value = id;
-				element4.style.display = "none";
-				cell4.appendChild(element4);
-			}
+			updateTotalValue(precoTotalProduto);
 		}
 
-		function delRow(){
-			var current = window.event.srcElement;
-		    //here we will delete the line
-		    while ( (current = current.parentElement)  && current.tagName !="TR");
-		    current.parentElement.removeChild(current);
+		function delRow(button){
+			var tr = $(button).closest('tr');
+			var prodValue = $(tr).find('.precoProduto').text();
+			updateTotalValue(-prodValue);
+			$(tr).remove();
+		    if($('#table tbody tr').length == 1){
+    			$('#emptyTableWarning').show();
+		    }
 		}
 	</script>
-
-	<style type="text/css">
-		.form-control{
-			width:75%;
-			margin-left: 15px;
-		}
-	</style>
 </head>
 
 <body>
@@ -104,7 +144,7 @@
 			
 			<div class="form-group"> 
 				<label for="selectBox">Produtos:</label>
-				<select id="selectBox" class="form-control" onchange="selecionarProduto(this);">
+				<select id="selectBox" class="form-control" onchange="selecionarProduto(this)">
 				<option selected hidden>Selecione um produto</option>
 				<% produtos.forEach(function(produto){ %>
 					<option value="<%= produto._id%>"><%= produto.name%></option>
@@ -120,7 +160,7 @@
 
 			<div class="form-group">
 				<label for="preco">Preço por unidade:</label>
-				<input type="text" class="form-control" name="preco" id="preco" size="5" >
+				<input type="number" class="form-control" step="0.01" id="preco" name="preco" value="0" min="0" max="1000" >
 			</div>
 
 			<div class="form-group">
@@ -136,16 +176,26 @@
 
 		<div class="col-sm-8">
 			<table id="table" class="table table-striped table-bordered">
-				<tr>
-					<th>Produto</th>
-					<th>Quantidade</th>
-					<th>Preço</th>
-					<th>Ação</th>
-				</tr>
+				<thead>
+					<tr>
+						<th>Produto</th>
+						<th>Quantidade</th>
+						<th>Preço</th>
+						<th>Ação</th>
+					</tr>	
+				</thead>
+				
+				<tbody>
+					<tr id="emptyTableWarning">
+						<td colspan="4" align="center">Nenhum produto foi adicionado nesse pedido</td>
+					</tr>
+				</tbody>
 			<table>
+			<div style="float:right">
+				<p id="totalValue"></p>
+			</div>
 			<input type="button" value="Concluir Pedido" class="btn btn-success" onclick="registrarPedido()">
 		</div>
-
 	</div>
 </body>
 </html>

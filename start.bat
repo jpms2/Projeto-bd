@@ -1,3 +1,3 @@
 start cmd  /C startMongoDB.bat
-start cmd  /C startServer.bat
+start cmd  /K startServer.bat
 explorer "http://localhost:3000"

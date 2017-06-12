@@ -13,21 +13,18 @@ router.get('/', function(req, res) {
 });
 
 router.post('/registrarPedido', function(req, res) {
-	var id = req.query.id;
-	var nome = req.query.nome;
-	var quantidade = parseInt(req.query.quantidade);
-	var valor = parseInt(req.query.valor);
+	var produtos = req.body;
 	var now = new Date;
-	var pedido = new Pedidos({ produtoid: id, nomeproduto: nome, quantidade: quantidade, valor: valor,	data: now });
-	pedido.save(function (err) {
-		if (err) {
-			console.log("Error! " + err.message);
-			return err;
-		}
-		else{
-			console.log("Post saved");
-		}
+	produtos.forEach(function(element, index){
+		var pedido = new Pedidos({ produtoid: element.id, nomeproduto: element.nome, quantidade: element.quantidade, valor: element.valor,	data: now });
+		pedido.save(function (err) {
+			if (err) {
+				console.log("Error! " + err.message);
+				return err;
+			}
+		});
 	});
+	res.status(200).send(200,"Pedido Salvo");
 });
 
 module.exports = router;
