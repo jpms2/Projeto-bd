@@ -14,16 +14,50 @@ router.post('/adicionar', function (req, res) {
 	var availableQtd = req.body.estoque;
 
 	var prod = new Produtos({ name: name, price: price, availableQtd: availableQtd });
-	prod.save(function (err) {
-		if (err) {
-			console.log("Error! " + err.message);
-			return err;
+	
+	var test = Produtos.find({name: name}).lean().exec(
+	  function (e, docs) {
+		console.log("oi");
+		if(docs.length == 0){
+			prod.save(function (err) {
+			if (err) {
+				console.log("Error! " + err.message);
+				return err;
+			}
+			else{
+				console.log("Post saved");
+				res.redirect("listar");
+			}
+		});
+		}else{
+			Produtos.findByIdAndUpdate(docs[0]._id, {$set: {
+				name: name,
+				price: price,
+				availableQtd: parseInt(docs[0].availableQtd) + parseInt(availableQtd)}}, function (err) {
+			if (err) {
+				console.log("Error! " + err.message);
+				return err;
+			}
+			else{
+				console.log("Post edited");
+				res.redirect("listar");
+			}
+			});
 		}
-		else{
-			console.log("Post saved");
-			res.redirect("listar");
-		}
-	});
+	  });
+	
+	
+	
+	//prod.save(function (err) {
+	//	if (err) {
+	//		console.log("Error! " + err.message);
+	//		return err;
+	//	}
+	//	else{
+	//		console.log("Post saved");
+	//		res.redirect("listar");
+	//	}
+	//});
 });
 
 //Edit
