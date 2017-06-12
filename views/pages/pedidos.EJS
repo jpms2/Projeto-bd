@@ -35,6 +35,7 @@
 				$("#preco").val(result.produto.price);
 				$("#nome").val(result.produto.name);
 				$("#id").val(result.produto._id);
+				$("#quantidadeproduto").val(result.produto.availableQtd);
 			}});
 			$('#quantidade').val(1);
 		}
@@ -42,7 +43,8 @@
 		function registrarPedido(){
 			var tableTRs = $('#table tbody tr');
 			var postData = [];
-			var data = {};
+			var vendedorNome = $('#selectBoxVendedor').val();
+			var data = {vendedor: vendedorNome};
 					
 			$.each(tableTRs, function(i,obj){
 				if(i==0){
@@ -58,18 +60,17 @@
 				var object = {id:id, quantidade:quantidade, nome:nome, valor:valor};
 				postData.push(object);
 			});
-
 			data.message = postData;
 			$.ajax({
 				type:"POST",
 				url:"/pedidos/registrarPedido",
-				data: JSON.stringify(postData),
+				data: JSON.stringify(data),
 				contentType: 'application/json',
 				success: function(){
 					alert("Pedido registrado!\nValor total: " + totalValue );
 					location.reload(); // refreshes the page
 				}
-			})
+			});
 		}
 
 		//só deus nessa função aqui
@@ -145,11 +146,19 @@
 			<div class="form-group"> 
 				<label for="selectBox">Produtos:</label>
 				<select id="selectBox" class="form-control" onchange="selecionarProduto(this)">
-				<option selected hidden>Selecione um produto</option>
 				<% produtos.forEach(function(produto){ %>
 					<option value="<%= produto._id%>"><%= produto.name%></option>
 				<%})%>
 
+				</select>
+			</div>
+
+			<div class="form-group"> 
+				<label for="selectBox">Vendedores:</label>
+				<select id="selectBoxVendedor" class="form-control">
+				<% vendedores.forEach(function(vendedor){ %>
+					<option value="<%= vendedor.nome%>"><%= vendedor.nome%></option>
+				<%})%>
 				</select>
 			</div>
 
@@ -170,7 +179,8 @@
 
 			<div class="form-group">
 				<input type="text" name="id" id="id" value="" class="hidden">
-				<input type="button" value="Inserir Produto" onclick="addRow('table')" class="btn btn-success">
+				<input type="text" name="quantidadeproduto" id="quantidadeproduto" value="" class="hidden">
+				<input type="button" value="Inserir Produto" onclick="addRow()" class="btn btn-success">
 			</div>
 		</div>
 

@@ -1,6 +1,14 @@
 <html lang="en">
 <head>
 	<% include ../partials/head %>
+
+	<script type="text/javascript">
+		function selecionarVendedor(select){
+			var vendedor = document.getElementById('selectBoxVendedor').value;
+			
+			document.getElementById('sellerName').value = vendedor;
+		}
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -25,6 +33,18 @@
 						<option <%if(type=="balance"){%> selected="selected" <%}%> value="balance">Balanço de Vendas</option>
 						<option <%if(type=="peaktime"){%> selected="selected" <%}%> value="peaktime">Horário de Pico</option>
 					</select>
+				</div>
+				<div class="form-group"> 
+					<label for="selectBox">Vendedores:</label>
+					<select id="selectBoxVendedor" class="form-control" onchange="selecionarVendedor(this);">
+						<option selected hidden>Selecione um vendedor</option>
+						<% vendedores.forEach(function(vendedor){ %>
+							<option value="<%= vendedor.nome%>"><%= vendedor.nome%></option>
+						<%})%>
+					</select>
+				</div>
+				<div class="form-group">
+					<input type="text" name="sellerName" id="sellerName" value="" class="hidden">
 				</div>
 				<button type="submit" class="btn btn-success">Pesquisar</button>
 			</form>

@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require("../db");
 var Produtos = db.Mongoose.model('produtocollection', db.ProductSchema, 'produtocollection');
 var Pedidos = db.Mongoose.model('pedidocollection', db.PedidoSchema, 'pedidocollection');
+var Vendedores = db.Mongoose.model('vendedorcollection', db.SellerSchema, 'vendedorcollection');
 var dateFormat = require('dateformat');
 
 router.get('/', function(req, res) {
@@ -13,7 +14,10 @@ router.get('/', function(req, res) {
 
     Pedidos.find({}).lean().exec(
         function (e, docs) {
-            res.render('pages/relatorio', { dataInicial: "",dataFinal: tomorrowStr, type:"balance","array": docs }); // lil gambi
+			Vendedores.find({}).lean().exec(
+			  function (e, docss) {
+				  res.render('pages/relatorio', { dataInicial: "",dataFinal: tomorrowStr, type:"balance","array": docs, "vendedores": docss }); // lil gambi
+			  });
     });
 });
 
@@ -22,6 +26,7 @@ router.post('/', function(req, res) {
 	var dataInicial = req.body.dataInicial;
     var dataFinal = req.body.dataFinal;
     var type = req.body.type;
+    var sellerName = req.body.sellerName;
 
     var queryStartDate = dataInicial;
     var queryEndDate = dataFinal;
@@ -61,9 +66,28 @@ router.post('/', function(req, res) {
                         timeArray[4].totalBought += docs[i].valor
                     }
                 }
-                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray});
+				Vendedores.find({}).lean().exec(
+					  function (e, docss) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray, "vendedores": docss});
+					  });
             }else{
-                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs});
+                if(!sellerName){
+					Vendedores.find({}).lean().exec(
+					  function (e, docss) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs, "vendedores": docss});
+					  });
+                }else{
+                    response = []
+                    for (var i = 0; docs[i] ; i++) {
+                        if(docs[i].nomevendedor == sellerName){
+                            response.push(docs[i]);
+                        }
+                    }
+					Vendedores.find({}).lean().exec(
+					  function (e, docss) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: response, "vendedores": docss});
+					  });
+                }
             }
 	});
 });
