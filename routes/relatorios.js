@@ -33,11 +33,15 @@ router.post('/', function(req, res) {
 
     if(!dataInicial){
         queryStartDate = new Date("2015-01-01");
+    }else{
+        queryStartDate = new Date(dataInicial);
     }
     if(!dataFinal){
         queryEndDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    }else{
+        queryEndDate = new Date(dataFinal);
+        queryEndDate.setDate(queryEndDate.getDate() + 1);
     }
-
 	var db = require("../db");
 	Pedidos.find({
 		data: {
