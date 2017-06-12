@@ -35,6 +35,7 @@
 
 		function updateTotalValue(newValue){
 			totalValue += newValue;
+			totalValue = parseFloat(totalValue.toFixed(2));
 			refreshTotalValue();
 		}
 		
@@ -118,6 +119,7 @@
 			pPreco.className = "precoProduto";
 			var preco = document.getElementById("preco").value;
 			var precoTotalProduto = preco * quantidade;
+			precoTotalProduto = parseFloat(precoTotalProduto.toFixed(2));
 		    var precoProduto = document.createTextNode(precoTotalProduto);
 			pPreco.appendChild(precoProduto);
 			cell3.appendChild(pPreco);
