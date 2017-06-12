@@ -66,10 +66,16 @@ router.post('/', function(req, res) {
                         timeArray[4].totalBought += docs[i].valor
                     }
                 }
-                res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray});
+				Vendedores.find({}).lean().exec(
+					  function (e, docss) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray, "vendedores": docss});
+					  });
             }else{
                 if(!sellerName){
-                    res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs});
+					Vendedores.find({}).lean().exec(
+					  function (e, docss) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs, "vendedores": docss});
+					  });
                 }else{
                     response = []
                     for (var i = 0; docs[i] ; i++) {
@@ -77,7 +83,10 @@ router.post('/', function(req, res) {
                             response.push(docs[i]);
                         }
                     }
-                    res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: response});
+					Vendedores.find({}).lean().exec(
+					  function (e, docss) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: response, "vendedores": docss});
+					  });
                 }
             }
 	});
