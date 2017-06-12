@@ -15,8 +15,8 @@ router.get('/', function(req, res) {
     Pedidos.find({}).lean().exec(
         function (e, docs) {
 			Vendedores.find({}).lean().exec(
-			  function (e, docss) {
-				  res.render('pages/relatorio', { dataInicial: "",dataFinal: tomorrowStr, type:"balance","array": docs, "vendedores": docss }); // lil gambi
+			  function (e, sellers) {
+				  res.render('pages/relatorio', { dataInicial: "",dataFinal: tomorrowStr, type:"balance","array": docs, "vendedores": sellers }); // lil gambi
 			  });
     });
 });
@@ -71,14 +71,14 @@ router.post('/', function(req, res) {
                     }
                 }
 				Vendedores.find({}).lean().exec(
-					  function (e, docss) {
-						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray, "vendedores": docss});
+					  function (e, sellers) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: timeArray, "vendedores": sellers});
 					  });
             }else{
                 if(!sellerName){
 					Vendedores.find({}).lean().exec(
-					  function (e, docss) {
-						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs, "vendedores": docss});
+					  function (e, sellers) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: docs, "vendedores": sellers});
 					  });
                 }else{
                     response = []
@@ -88,8 +88,8 @@ router.post('/', function(req, res) {
                         }
                     }
 					Vendedores.find({}).lean().exec(
-					  function (e, docss) {
-						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: response, "vendedores": docss});
+					  function (e, sellers) {
+						  res.render('pages/relatorio', { dataInicial: dataInicial,dataFinal: dataFinal, type: type, array: response, "vendedores": sellers});
 					  });
                 }
             }
